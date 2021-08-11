@@ -1,0 +1,169 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>{{title}}</title>
+</head>
+<body>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+
+        @media(max-width:960px) {
+
+        }
+
+        body{
+            margin: 4rem;
+            height: 100vh;
+            /* background: linear-gradient(180deg, #fbc7d4 0%, #9796f0 100%); */
+            background: linear-gradient(180deg, #ffecd2bb 0%, #d49b88 100%);;
+
+            background-attachment: fixed;
+        }
+
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1 { 
+            color: #ac5d18; 
+            font-family: 'Trocchi', serif; 
+            font-size: 50px; 
+            font-weight: normal; 
+            line-height: 72px; 
+            margin: 0; 
+            text-align: center;
+        }
+
+        h2{
+            font-size: 1.5rem;
+            background-color: #f3d5be;
+            border-radius: 50px;
+            padding: 2%;
+            margin-right: 50px;
+            margin: auto;
+            position: absolute;
+            height: 60%;
+            width: 30%;
+        }
+
+        h3{
+            font-size: 2rem;
+            font-family: 'Lato', sans-serif;
+            font-weight:300;
+            background-color: #f3d5be;
+            border-radius: 50px;
+            padding: 2%;
+            margin-right: 50px;
+            margin: auto;
+            position: absolute;
+            /* height: 23%; */
+            /* width: 23%; */
+            text-align: center;
+            line-height: 200%;
+        }
+
+        h4{
+            text-align: center;
+            line-height: 300%;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            /* background-color: #f3d5be; */
+            margin: auto;
+            position: absolute;
+            padding: 2%;
+            line-height: 200%;
+        }
+
+        img{
+            width: 100%;
+            height: 70%;
+            object-fit: cover;
+            /* object-position: center center; */
+            left: 50%;
+            border-radius: 30px;
+            margin-bottom: 50px;
+        }
+
+        #map{
+            height: 100%;
+            width: 62%;
+            border-radius: 30px;
+        }
+
+        #home{
+            height: 4%;
+            width: 6%;
+            background-color: #eacbbf;
+            border-radius: 30px;
+            text-align: center;
+        }
+
+    </style>
+    <!-- <button class="btn" href="{% url 'index' %}"><i class="fa fa-home"></i></button> -->
+    <a href="{% url 'index' %}" class="fa fa-home" id='home'></a>
+
+    <h1>{{title}}</h1>
+
+    <img src="{{img}}" class='center'>
+
+    <div style="width: 100%; min-height: 60%; display: table; margin-bottom: 50px;">
+        <div style="display: table-row">
+            <div style="display: table-cell;">
+                <h2>
+                    {{desc}}
+                </h2>
+            </div>
+            <div style="display: table-cell;" id="map"></div>
+        </div>
+    </div>
+
+    <div style="width: 100%; min-height: 40%; display: table;">
+        <div style="display: table-row">
+            <div style="display: table-cell;">
+                <h3>
+                    Current Weather<br>
+                    {{temp}}&degC<br>
+                    {{tempDesc}}
+                </h3>
+            </div>
+            <div style="display: table-cell; width: 72%;">
+                <h4>
+                {% for activity in activities %}
+                    {{activity}},
+                {% endfor %}
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function initMap() {
+            var options = {
+                zoom: 11,
+                center: {lat: {{lat}}, lng: {{lng}}}
+            }
+
+            var map = new google.maps.Map(document.getElementById("map"), options);
+
+            var marker = new google.maps.Marker({
+                position: {lat: {{lat}}, lng: {{lng}}},
+                map: map,
+            })
+        }
+    </script>
+    
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key={{googleAPI}}&callback=initMap&libraries=&v=weekly">
+    </script>
+</body>
+</html>
