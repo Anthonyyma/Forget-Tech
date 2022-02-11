@@ -33,8 +33,7 @@ def index(response):
         activity = getActivity
         getState = States.objects.filter(name=response.POST.getlist('stateResult')[0])[0].abv
 
-        # npsAPI = os.environ.get('NPSAPI')
-        npsAPI = '9GhfdBMc6CgSAgC9Ny5WdMVjCwlcgOk3C4kcsOsK'  #REMOVE
+        npsAPI = os.environ.get('NPSAPI')
 
         address = 'https://developer.nps.gov/api/v1/' + getActivity + '?q=' + getState + '&api_key=' + npsAPI
 
@@ -64,13 +63,11 @@ def index(response):
 
 def info(response):
     activities = []
-    # googleAPI = os.environ.get('GOOGLEAPI')
-    googleAPI = 'AIzaSyAN9KMFL5lLxXckJPe_9hdRUVd431tMANI'  #REMOVE
+    googleAPI = os.environ.get('GOOGLEAPI')
 
     #get info of chosen location
     code = response.GET.get('code')
-    # npsAPI = os.environ.get('NPSAPI')
-    npsAPI = '9GhfdBMc6CgSAgC9Ny5WdMVjCwlcgOk3C4kcsOsK'         #REMOVE
+    npsAPI = os.environ.get('NPSAPI')
     address = 'https://developer.nps.gov/api/v1/' + activity + '?parkCode=' + code + '&api_key=' + npsAPI
 
     r = requests.get(address)
@@ -98,8 +95,7 @@ def info(response):
 
     hours = j.get('data')[0].get('operatingHours')[0].get('description')
 
-    # weatherAPI = os.environ.get('WEATHERAPI')
-    weatherAPI = 'badeb91e6b698564d9a0ba0985c4d9f3'   #REMOVE
+    weatherAPI = os.environ.get('WEATHERAPI')
 
     #get weather of chosen location
     address = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lng + '&units=metric&exclude=hourly,minutely,daily&appid=' + weatherAPI
