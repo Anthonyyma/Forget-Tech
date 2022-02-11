@@ -33,7 +33,8 @@ def index(response):
         activity = getActivity
         getState = States.objects.filter(name=response.POST.getlist('stateResult')[0])[0].abv
 
-        npsAPI = os.environ.get('NPSAPI')
+        # npsAPI = os.environ.get('NPSAPI')
+        npsAPI = '9GhfdBMc6CgSAgC9Ny5WdMVjCwlcgOk3C4kcsOsK'  #REMOVE
 
         address = 'https://developer.nps.gov/api/v1/' + getActivity + '?q=' + getState + '&api_key=' + npsAPI
 
@@ -63,10 +64,13 @@ def index(response):
 
 def info(response):
     activities = []
-    googleAPI = os.environ.get('GOOGLEAPI')
+    # googleAPI = os.environ.get('GOOGLEAPI')
+    googleAPI = 'AIzaSyAN9KMFL5lLxXckJPe_9hdRUVd431tMANI'  #REMOVE
+
     #get info of chosen location
     code = response.GET.get('code')
-    npsAPI = os.environ.get('NPSAPI')
+    # npsAPI = os.environ.get('NPSAPI')
+    npsAPI = '9GhfdBMc6CgSAgC9Ny5WdMVjCwlcgOk3C4kcsOsK'         #REMOVE
     address = 'https://developer.nps.gov/api/v1/' + activity + '?parkCode=' + code + '&api_key=' + npsAPI
 
     r = requests.get(address)
@@ -90,7 +94,12 @@ def info(response):
 
     lng = j.get('data')[0].get('longitude')
 
-    weatherAPI = os.environ.get('WEATHERAPI')
+    contact = j.get('data')[0].get('contacts').get('phoneNumbers')[0].get('phoneNumber')
+
+    hours = j.get('data')[0].get('operatingHours')[0].get('description')
+
+    # weatherAPI = os.environ.get('WEATHERAPI')
+    weatherAPI = 'badeb91e6b698564d9a0ba0985c4d9f3'   #REMOVE
 
     #get weather of chosen location
     address = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lng + '&units=metric&exclude=hourly,minutely,daily&appid=' + weatherAPI
@@ -99,6 +108,7 @@ def info(response):
     j = json.loads(r.text)
 
     temp = j.get('current').get('temp')
+    tempf = temp * 9 // 5 + 32
     tempDesc = j.get('current').get('weather')[0].get('description')
 
-    return render(response, 'main/info.html', {'title':title, 'desc':desc, 'img':img, 'lat':lat, 'lng':lng, 'temp':temp, 'tempDesc':tempDesc, 'activities':activities, 'googleAPI':googleAPI})
+    return render(response, 'main/info.html', {'title':title, 'desc':desc, 'img':img, 'lat':lat, 'lng':lng, 'temp':temp, 'tempf':tempf, 'tempDesc':tempDesc, 'activities':activities, 'googleAPI':googleAPI, 'contact':contact, 'hours':hours})
